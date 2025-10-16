@@ -52,7 +52,6 @@ export default function AllHistory() {
       minHeight: 'calc(100vh - 80px)',
       background: 'linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%)',
     }}>
-      {/* Header */}
       <div style={{
         textAlign: 'center',
         padding: '60px 20px',
@@ -188,7 +187,6 @@ export default function AllHistory() {
                   </div>
                 </div>
                 
-                {/* Show keywords if available */}
                 {opt.keywords && (
                   <div style={{ 
                     marginTop: '15px', 

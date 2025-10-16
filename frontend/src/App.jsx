@@ -5,7 +5,6 @@ import Comparison from './components/Comparison';
 import AllHistory from './components/AllHistory';
 import './index.css';
 
-// Main content component that handles the optimizer view
 function OptimizerView() {
   const [result, setResult] = useState(null);
   const location = useLocation();
@@ -18,7 +17,6 @@ function OptimizerView() {
       minHeight: 'calc(100vh - 80px)',
       background: 'linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%)',
     }}>
-      {/* Hero Section */}
       {!result && (
         <div style={{
           textAlign: 'center',
@@ -69,7 +67,6 @@ function OptimizerView() {
         </div>
       )}
 
-      {/* Input Section */}
       <div style={{
         backgroundColor: 'white',
         padding: '40px 20px',
@@ -80,10 +77,8 @@ function OptimizerView() {
         <AsinInput onResult={(d) => setResult(d)} initialAsin={initialAsin} />
       </div>
 
-      {/* Results Section */}
       {result && (
         <div style={{ padding: '40px 20px' }}>
-          {/* Scraping Note */}
           {result?.scraped?.title?.includes('Unable to scrape') && (
             <div style={{ 
               backgroundColor: '#fff3cd', 
@@ -103,7 +98,6 @@ function OptimizerView() {
         </div>
       )}
 
-      {/* Features Grid - Show when no result */}
       {!result && (
         <div style={{
           padding: '60px 20px',
@@ -189,7 +183,6 @@ function OptimizerView() {
   );
 }
 
-// Navigation component
 function Navigation() {
   const location = useLocation();
   
@@ -203,7 +196,6 @@ function Navigation() {
         display: 'flex', 
         alignItems: 'center',
       }}>
-        {/* Amazon-style Logo */}
         <div style={{
           display: 'flex',
           alignItems: 'center',
@@ -234,7 +226,6 @@ function Navigation() {
           </span>
         </div>
 
-        {/* Navigation Tabs */}
         <div style={{ display: 'flex', gap: '0' }}>
           <Link 
             to="/" 
@@ -278,7 +269,6 @@ function Navigation() {
   );
 }
 
-// Main App component
 function App() {
   return (
     <Router>

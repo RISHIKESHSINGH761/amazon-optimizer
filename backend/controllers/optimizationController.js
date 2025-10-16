@@ -7,14 +7,10 @@ exports.optimizeByAsin = async (req, res) => {
     const { asin } = req.body;
     if (!asin) return res.status(400).json({ error: 'ASIN required' });
 
-    // 1) Scrape Amazon
     const scraped = await scraper.scrapeProductByASIN(asin); 
-    // scraped: { title, bullets: [..], description }
 
-    // 2) Ask AI to optimize
     const optimized = await aiService.optimizeListing(scraped);
 
-    // 3) Save to DB
     const record = await Optimization.create({
       asin,
       original_title: scraped.title,

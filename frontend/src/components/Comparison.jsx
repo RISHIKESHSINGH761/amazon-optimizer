@@ -201,7 +201,6 @@ export default function Comparison({ scraped, optimized }) {
           </p>
         </div>
 
-        {/* Keywords Section */}
         <div style={{ 
           marginTop: '25px', 
           padding: '20px',
