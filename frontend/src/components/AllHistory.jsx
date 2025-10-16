@@ -14,12 +14,11 @@ export default function AllHistory() {
         
         console.log('API Response:', response);
         
-        if (response && response.optimizations) {
+        // Fixed: Handle the correct API response structure { success: true, optimizations: [...] }
+        if (response && response.success && Array.isArray(response.optimizations)) {
           setOptimizations(response.optimizations);
-        } else if (response && Array.isArray(response.data)) {
-          setOptimizations(response.data);
-        } else if (Array.isArray(response)) {
-          setOptimizations(response);
+        } else if (response && Array.isArray(response.optimizations)) {
+          setOptimizations(response.optimizations);
         } else {
           console.error('Unexpected API response format:', response);
           setOptimizations([]);
