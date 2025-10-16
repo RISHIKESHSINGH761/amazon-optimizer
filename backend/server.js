@@ -9,16 +9,17 @@ app.use(cors());
 app.use(bodyParser.json({ limit: '2mb' }));
 
 app.use('/api', optimizationRoutes);
+
 app.get('/api/health', (req, res) => {
   res.json({ 
-    status: 'Backend is running!', 
+    status: ' Backend is running!', 
     timestamp: new Date().toISOString(),
-    service: 'Amazon Optimizer API'
+    service: 'Amazon Optimizer API - Scraper Only'
   });
 });
 
 const PORT = process.env.PORT || 4000;
 
 app.listen(PORT, () => {
-  console.log(` Amazon Optimizer Backend running on port ${PORT}`);
+  console.log(` Amazon Optimizer Backend (Scraper Only) running on port ${PORT}`);
 });
