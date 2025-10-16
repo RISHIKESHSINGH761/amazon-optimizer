@@ -1,4 +1,4 @@
-const scraper = require('../services/scraper');
+const { scrapeProductByASIN } = require('../services/scraper');
 const aiService = require('../services/aiService');
 
 exports.optimizeByAsin = async (req, res) => {
@@ -6,10 +6,7 @@ exports.optimizeByAsin = async (req, res) => {
     const { asin } = req.body;
     if (!asin) return res.status(400).json({ error: 'ASIN required' });
 
-    console.log(`🛒 Starting optimization for ASIN: ${asin}`);
-
-    const scraped = await scraper.scrapeProductByASIN(asin); 
-
+    const scraped = await scrapeProductByASIN(asin);
     const optimized = await aiService.optimizeListing(scraped);
 
     return res.json({
@@ -18,8 +15,7 @@ exports.optimizeByAsin = async (req, res) => {
         title: scraped.title,
         bullets: scraped.bullets,
         description: scraped.description,
-        price: scraped.price,
-        image: scraped.image
+        price: scraped.price
       },
       optimized: {
         title: optimized.title,
@@ -27,12 +23,10 @@ exports.optimizeByAsin = async (req, res) => {
         description: optimized.description,
         keywords: optimized.keywords
       },
-      asin: asin,
-      timestamp: new Date().toISOString()
+      asin: asin
     });
 
   } catch (err) {
-    console.error('❌ Optimization error:', err);
     return res.status(500).json({ 
       error: 'Server error', 
       details: err.message,
