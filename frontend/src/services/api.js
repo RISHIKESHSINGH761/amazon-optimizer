@@ -1,5 +1,5 @@
 import axios from 'axios';
-const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:4000/api';
+const API_BASE = 'https://amazon-optimizer-production.up.railway.app/api';
 
 export const optimizeAsin = (asin) =>
   axios.post(`${API_BASE}/optimize`, { asin });
