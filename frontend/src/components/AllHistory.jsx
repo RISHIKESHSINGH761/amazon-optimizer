@@ -200,9 +200,23 @@ export default function AllHistory() {
                       fontSize: '14px', 
                       color: '#555'
                     }}>
-                      {typeof opt.keywords === 'string' 
-                        ? JSON.parse(opt.keywords).join(', ') 
-                        : opt.keywords.join(', ')}
+                      {(() => {
+                        try {
+                          if (!opt.keywords) return 'No keywords';
+                          
+                          if (typeof opt.keywords === 'string') {
+                            const parsed = JSON.parse(opt.keywords);
+                            return Array.isArray(parsed) ? parsed.join(', ') : 'Invalid keywords format';
+                          } else if (Array.isArray(opt.keywords)) {
+                            return opt.keywords.join(', ');
+                          } else {
+                            return 'No keywords available';
+                          }
+                        } catch (error) {
+                          console.error('Error parsing keywords:', error);
+                          return 'Error loading keywords';
+                        }
+                      })()}
                     </span>
                   </div>
                 )}
