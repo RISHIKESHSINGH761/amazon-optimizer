@@ -11,9 +11,22 @@ export default function AllHistory() {
     const loadHistory = async () => {
       try {
         const response = await fetchAll();
-        setOptimizations(response.data);
+        
+        console.log('API Response:', response);
+        
+        if (response && response.optimizations) {
+          setOptimizations(response.optimizations);
+        } else if (response && Array.isArray(response.data)) {
+          setOptimizations(response.data);
+        } else if (Array.isArray(response)) {
+          setOptimizations(response);
+        } else {
+          console.error('Unexpected API response format:', response);
+          setOptimizations([]);
+        }
       } catch (error) {
         console.error('Error loading history:', error);
+        setOptimizations([]);
       } finally {
         setLoading(false);
       }
@@ -78,9 +91,8 @@ export default function AllHistory() {
         </p>
       </div>
 
-      {/* Content */}
       <div style={{ padding: '40px 20px' }}>
-        {optimizations.length === 0 ? (
+        {!optimizations || optimizations.length === 0 ? (
           <div style={{ 
             textAlign: 'center', 
             padding: '60px 20px',
