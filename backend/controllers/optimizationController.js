@@ -1,4 +1,3 @@
-const Optimization = require('../models/Optimization');
 const scraper = require('../services/scraper');
 const aiService = require('../services/aiService');
 
@@ -7,35 +6,51 @@ exports.optimizeByAsin = async (req, res) => {
     const { asin } = req.body;
     if (!asin) return res.status(400).json({ error: 'ASIN required' });
 
+    console.log(`🛒 Starting optimization for ASIN: ${asin}`);
+
     const scraped = await scraper.scrapeProductByASIN(asin); 
 
     const optimized = await aiService.optimizeListing(scraped);
 
-    const record = await Optimization.create({
-      asin,
-      original_title: scraped.title,
-      original_bullets: JSON.stringify(scraped.bullets),
-      original_description: scraped.description,
-      optimized_title: optimized.title,
-      optimized_bullets: JSON.stringify(optimized.bullets),
-      optimized_description: optimized.description,
-      keywords: JSON.stringify(optimized.keywords)
+    return res.json({
+      success: true,
+      scraped: {
+        title: scraped.title,
+        bullets: scraped.bullets,
+        description: scraped.description,
+        price: scraped.price,
+        image: scraped.image
+      },
+      optimized: {
+        title: optimized.title,
+        bullets: optimized.bullets,
+        description: optimized.description,
+        keywords: optimized.keywords
+      },
+      asin: asin,
+      timestamp: new Date().toISOString()
     });
 
-    return res.json({ record, optimized, scraped });
   } catch (err) {
-    console.error(err);
-    return res.status(500).json({ error: 'Server error', details: err.message });
+    console.error('❌ Optimization error:', err);
+    return res.status(500).json({ 
+      error: 'Server error', 
+      details: err.message,
+      success: false
+    });
   }
 };
 
 exports.getHistoryByAsin = async (req, res) => {
-  const { asin } = req.params;
-  const items = await Optimization.findAll({ where: { asin }, order: [['createdAt', 'DESC']] });
-  res.json(items);
+  res.json({ 
+    message: 'History feature requires database connection',
+    history: []
+  });
 };
 
 exports.getAll = async (req, res) => {
-  const items = await Optimization.findAll({ order: [['createdAt', 'DESC']], limit: 200 });
-  res.json(items);
+  res.json({ 
+    message: 'All optimizations feature requires database connection',
+    optimizations: []
+  });
 };
