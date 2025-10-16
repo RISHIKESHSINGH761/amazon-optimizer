@@ -3,7 +3,7 @@ const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const optimizationRoutes = require('./routes/optimizationRoutes');
-const { sequelize } = require('./database');
+const { sequelize } = require('./config/database');
 
 const app = express();
 app.use(cors());
