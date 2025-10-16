@@ -19,7 +19,7 @@ Transform your Amazon product listings with AI-powered optimization. This tool s
 
 ## Quick Start
 
-### Backend Setup
+### Setup
 ```bash
 cd backend
 npm install
